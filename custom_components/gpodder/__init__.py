@@ -18,6 +18,7 @@ from custom_components.gpodder.const import (
     CONF_PASSWORD,
     CONF_SENSOR,
     CONF_USERNAME,
+    CONF_SERVER,
     DOMAIN,
     REQUEST_HEADERS,
     STARTUP,
@@ -43,6 +44,7 @@ async def async_setup_entry(hass, entry):
     password = entry.data.get(CONF_PASSWORD)
     device = entry.data.get(CONF_DEVICE)
     name = entry.data.get(CONF_NAME)
+    server = entry.data.get(CONF_SERVER)
 
     coordinator = GpodderDataUpdateCoordinator(hass, username, password, device, name)
     await coordinator.async_refresh()
@@ -119,13 +121,14 @@ def update_using_feedservice(urls):
 class GpodderDataUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching data from the API."""
 
-    def __init__(self, hass, username, password, device, name):
+    def __init__(self, hass, username, password, device, name, server):
         """Initialize."""
         self.hass = hass
         self.name = name
-        self.api = api.MygPodderClient(username, password)
+        self.server = server
+        self.api = api.MygPodderClient(username, password, root_url=server)
         self.device = device
-
+        
         super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=UPDATE_INTERVAL)
 
     async def _async_update_data(self):
@@ -140,7 +143,7 @@ class GpodderDataUpdateCoordinator(DataUpdateCoordinator):
             )
         except (Exception, BaseException) as exception:
             raise UpdateFailed(
-                f"Could not update data for device '{self.device}' - {exception}"
+                f"Could not update data for device '{self.device}' from '{self.server}' - {exception}"
             )
 
 
