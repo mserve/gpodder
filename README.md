@@ -20,7 +20,7 @@ Platform | Description
 `sensor` | Show info from gPodder API and expose services.
 
 ## Pre-Installation
-1. Setup an account for [gPodder][gpodder]
+1. Setup an account at your favourite gPodder server. You can use the official gpodder.net service or use a self-hosted one.
 1. Subscribe to your favorite podcasts (I hope to add subscription management from the component in the future)
 1. Make sure your subscriptions are being synced to the device you intend to use in Home Assistant.
 
