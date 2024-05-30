@@ -31,6 +31,7 @@ CONF_NAME = "name"
 CONF_USERNAME = "username"
 CONF_PASSWORD = "password"
 CONF_DEVICE = "device"
+CONF_SERVER = "server"
 
 # Defaults
 DEFAULT_NAME = DOMAIN
